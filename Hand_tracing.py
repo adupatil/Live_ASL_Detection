@@ -97,7 +97,7 @@ class HandDetector:
                                   (255, 0, 255), 2)
                     
                     # Cropping Hand images
-                    img_cropped = img_cropped[ymin-30:ymax+30,xmin-30:xmax+30]
+                    img_cropped = img_cropped[ymin-40:ymax+40,xmin-40:xmax+40]
                     # print("Image",img.shape)
                     # print("Crop",img_cropped.shape)
                     # print("xmin",xmin)
