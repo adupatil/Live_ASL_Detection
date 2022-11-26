@@ -12,6 +12,7 @@ from matplotlib.image import imread
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1)
+
 model = models.resnet34(pretrained=False)
 # Number of Input Features in the Last Fully Connected Layer
 in_features = model.fc.in_features
@@ -24,6 +25,9 @@ model.fc = fc
 checkpoint = torch.load("../Project/Hand-Gestures/checkpoint_90.89")
 model.load_state_dict(checkpoint['model_state_dict'])  
 model.eval()
+
+classes = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','del','nothing','space']
+
 
 test_transforms = transforms.Compose([
     transforms.Resize((224,224)),
@@ -39,7 +43,7 @@ while True:
     img_2 = test_transforms(img_1)
     pred = model(torch.unsqueeze(img_2,dim=0))
     #print(pred)
-    print(torch.max(pred,dim=1)[1])
+    print(classes[torch.max(pred,dim=1)[1]])
     cv2.imshow("Image",img)
     cv2.imshow("Image_2",img_cropped)
     cv2.waitKey(100)
