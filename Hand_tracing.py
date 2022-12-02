@@ -69,7 +69,6 @@ class HandDetector:
                 ymin, ymax = min(yList), max(yList)
                 boxW, boxH = xmax - xmin, ymax - ymin
                 bbox = xmin, ymin, boxW, boxH
-
                 #print(type(bbox))
                 cx, cy = bbox[0] + (bbox[2] // 2), \
                          bbox[1] + (bbox[3] // 2)
@@ -89,7 +88,7 @@ class HandDetector:
 
                 ## draw
                 if draw:
-                    box.append(bbox)
+                    box = [xmin, ymin, boxW, boxH]
                     self.mpDraw.draw_landmarks(img, handLms,
                                                self.mpHands.HAND_CONNECTIONS)
                     cv2.rectangle(img, (bbox[0] - 20, bbox[1] - 20),
@@ -102,10 +101,10 @@ class HandDetector:
                     # print("Crop",img_cropped.shape)
                     # print("xmin",xmin)
                     # print("ymin",ymin)
-                    cv2.putText(img, myHand["type"], (bbox[0] - 30, bbox[1] - 30), cv2.FONT_HERSHEY_PLAIN,
-                                2, (255, 0, 255), 2)
+                    #cv2.putText(img, myHand["type"], (bbox[0] - 30, bbox[1] - 30), cv2.FONT_HERSHEY_PLAIN,
+                                #2, (255, 0, 255), 2)
         if draw:
-            return allHands, img,img_cropped
+            return allHands, img,img_cropped,box
         else:
             return allHands
 

@@ -38,12 +38,19 @@ test_transforms = transforms.Compose([
 i=0
 while True:
     success,img = cap.read()
-    hands,img,img_cropped = detector.findHands(img)
+    hands,img,img_cropped,bbox = detector.findHands(img)
+    print(bbox)
     img_1 = Image.fromarray(img_cropped)
     img_2 = test_transforms(img_1)
     pred = model(torch.unsqueeze(img_2,dim=0))
     #print(pred)
-    print(classes[torch.max(pred,dim=1)[1]])
-    cv2.imshow("Image",img)
+    #print(classes[torch.max(pred,dim=1)[1]])
+    #cv2.imshow("Image",img)
     cv2.imshow("Image_2",img_cropped)
+    # image =cv2.putText(img,classes[torch.max(pred,dim=1)[1]],org=(100,100),
+    # fontFace=cv2.FONT_HERSHEY_COMPLEX,fontScale=2,color=(255,0,255),thickness=2)
+    if bbox!=[]:
+        image = cv2.putText(img,classes[torch.max(pred,dim=1)[1]] , (bbox[0] - 30, bbox[1] - 30), cv2.FONT_HERSHEY_PLAIN,
+                                    2, (255, 0, 255), 2)
+        cv2.imshow("Image",image)
     cv2.waitKey(100)

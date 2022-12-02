@@ -9,9 +9,9 @@ from matplotlib.image import imread
 import sys
 from test_acc import get_test_acc
 
-debug = True
+debug = False
 
-model = keras.models.load_model("../Project/Hand-Gestures/model/asl_classifier_baseline_normalized.h5")
+model = keras.models.load_model("../Project/asl_classifier_baseline_normalized_.h5")
 
 # Creating generator
 #test_transform = keras.preprocessing.image.ImageDataGenerator(preprocessing_function=tf.keras.applications.mobilenet_v2.preprocess_input)
@@ -39,8 +39,9 @@ while True:
     
         # Rescaling
         # rescale = tf.keras.layers.Rescaling(1./127.5, offset=-1)
-        img_1 = 2*((img_1 - np.amin(img_1)) / (np.amax(img_1) - np.amin(img_1)))-1
+        img_1 = 2*((img_cropped - np.amin(img_cropped)) / (np.amax(img_cropped) - np.amin(img_cropped)))-1
         img_1.resize((200,200,3),refcheck=False)
         pred = model.predict(np.expand_dims(img_1,axis=0))
-        print(classes[np.argmax(pred,axis=-1)[0]])
+        #print(classes[np.argmax(pred,axis=-1)[0]])
+        cv2.putText(img,classes[np.argmax(pred,axis=-1)[0]],cv2.FONT_HERSHEY_COMPLEX,2,(255,0,255),2)
         cv2.waitKey(100)
