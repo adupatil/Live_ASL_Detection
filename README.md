@@ -1,1 +1,1 @@
-Adjusting the brightness of screen varies result. 
+A real time application to convert American Sign Language into english text using Deep Learning Techniques !!! 
